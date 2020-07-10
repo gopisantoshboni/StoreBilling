@@ -1,0 +1,290 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-lg-12">
+            <br />
+            <div class="panel panel-primary">
+                <div class="panel-heading">Bill Generation</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Item</span>
+                                    <input id="Item" class="form-control" placeholder="Enter item" list="json-datalist" />                                    
+                                    <datalist id="json-datalist"></datalist>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Quantity</span>
+                                    <input id="Quantity" class="form-control" placeholder="Qty" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Type</span>
+                                    <input id="Type" type="text" class="form-control" readonly />                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Actual Price (£)</span>
+                                    <input id="ActualPrice" class="form-control" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Discount</span>
+                                    <input id="Discount" class="form-control" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Price (£)</span>
+                                    <input id="Price" class="form-control" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 pull-right">                            
+                            <input type="button" id="Add" value="Add" class="btn btn-default pull-right" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="table-responsive form-inline">
+                                <input id="list_detalle" name="list_detalle" type="hidden" />
+                                <table id="ItemsTable" class="table table-bordered table-striped display" aria-describedby="tabla factura de compra">
+                                    <thead>
+                                        <tr>
+                                            <td>Item</td>
+                                            <td>Quantity</td>
+                                            <td>Type</td>
+                                            <td>Actual Price</td>
+                                            <td>Discount</td>
+                                            <td>Price</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="body_fact">
+                                        @*<tr id="tr1">
+                                            <td><input id="1" name="1" type="text" class="form-control td_codigo" style="width: 100%" /><input id="id1" name="id1" type="hidden" /></td>
+                                            <td><input id="ca1" name="ca1" type="number" value="1" class="form-control td_cantidad" style="width: 100%" /></td>
+                                            <td><input id="no1" name="no1" type="text" class="form-control" readonly style="width: 100%" /></td>
+                                            <td><input id="pu1" name="pu1" type="number" value="0" step="0.01" class="form-control td_pu" style="width: 100%" /></td>
+                                            <td><input id="to1" name="to1" type="number" value="0" step="0.01" class="form-control" readonly style="width: 100%" /></td>
+                                            <td><button type="button" id="bt1" class="btn btn-danger btn_eliminar" title="eliminar"><i class="fa fa-trash-o"></i></button></td>
+                                        </tr>*@
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Subtotal(£)</span>
+                                            <input id="SubTotal" class="form-control" readonly />
+                                            <span asp-validation-for="Subtotal" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">GST(%)</span>
+                                            <input id="GST" class="form-control" value="@ViewBag.GST" readonly />
+                                            <span asp-validation-for="Iva" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Total(£)</span>
+                                            <input id="Total" class="form-control" readonly />
+                                            <span asp-validation-for="Total" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div>        
+        <input type="submit" id="Generate" value="Generate" class="btn btn-default pull-right" />
+    </div>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+   
+        $("#Item").keyup(function () {
+            //$("#Item").css("background-color", "pink");
+            var sString = $("#Item").val();           
+            if (sString != '') {               
+                 $.ajax({
+                            url: "@Url.Action("ListItemsByKeyword", "Bill")",
+                            type: "POST",
+                            data: { 'SearchedString': sString },
+                            dataType: "json",
+                            success: function (data) {
+                                if (data == null || data == "") {
+                        //alert("no skills found");
+                                }
+                                else {
+                                var dataList = document.getElementById('json-datalist');
+                                $(dataList).empty();
+                                $.each(data, function (key, value) {
+                                    $(dataList).append($('<option>').val(value.Name.trim()).attr("data-customvalue", value.ItemId));
+                                    });
+                                }
+                            },
+                            error: function () {
+                            alert("failure");
+                            }
+                        });
+
+            }
+       
+    });
+
+    $("#Item").on('input', function () {
+        var val = this.value;
+        if ($('#json-datalist option').filter(function () {
+            return this.value.toUpperCase() === val.toUpperCase();
+        }).length) {       
+            var itemId = $('#json-datalist [value="' + this.value + '"]').attr('data-customvalue');
+            $.ajax({
+                            url: "@Url.Action("ReadItemDetailsById", "Bill")",
+                            type: "POST",
+                            data: { 'ItemId': itemId },
+                            dataType: "json",
+                            success: function (data) {
+                                if (data == null || data == "") {
+                        //alert("no skills found");
+                                }
+                                else {
+                                    //var jsonPretty = JSON.stringify(data.ItemType, null, '\t');
+                                    //alert(jsonPretty);
+                                    var itemType = data.ItemType;
+                                    $("#ActualPrice").val(data.Price);
+                                    $("#Type").val(itemType.Name);
+                                    $("#Discount").val(itemType.discount);
+                                    }
+                            },
+                            error: function () {
+                            alert("failure");
+                            }
+                        });
+        }
+    });
+
+    $("#Quantity").keyup(function () {
+        var qty = $("#Quantity").val();
+        var actualPrice = $("#ActualPrice").val();
+        var discount = $("#Discount").val();
+
+        var price = qty * actualPrice;
+        price = price - (price * (discount / 100));
+        $("#Price").val(price);
+    });
+
+    $("#Add").click(function (e) {
+        var itemId = $('#json-datalist [value="' + $("#Item").val() + '"]').attr('data-customvalue');
+        $("#ItemsTable").append('<tr><td data-id='+ itemId +'>' + $("#Item").val() + '</td><td>' + $("#Quantity").val() + '</td><td>' + $("#Type").val() + '</td><td>' + $('#ActualPrice').val() + '</td><td>' + $("#Discount").val() + '</td><td class="price">' + $("#Price").val() + '</td><td><button type="button" class="btn btn-danger btn_eliminar" title="Remove"><i class="fa fa-trash-o"></i></button></td></tr >');
+        CalculatePrice();
+        e.preventDefault();
+    });
+
+    function CalculatePrice() {
+        var sum = 0;
+        $('table tbody tr td.price').each(function () {
+            sum = sum + parseInt($(this).text());
+        });
+               
+        $("#SubTotal").val(sum);
+
+        var gst = $("#GST").val();        
+        sum = sum + (sum * (gst / 100));
+        $("#Total").val(sum);
+    }
+
+   
+
+    $("#ItemsTable").on('click', '.btn-danger', function () {
+        $(this).parent().parent().remove();
+        CalculatePrice();
+    });
+
+    $("#Generate").click(function (e) {
+        var items = new Array();
+        $("#ItemsTable TBODY TR").each(function () {
+            var row = $(this);
+            var item = {};
+            item.ItemId = row.find("TD").eq(0).attr('data-id');            
+            item.Quantity = row.find("TD").eq(1).html();
+            item.ItemPrice = row.find("TD").eq(3).html();
+            item.Discount = row.find("TD").eq(4).html();
+            item.TotalPrice = row.find("TD").eq(5).html();
+            items.push(item);
+        });
+        var price = $("#SubTotal").val();
+        var gst = $("#GST").val();
+        var totalPrice = $("#Total").val();
+
+         $.ajax({
+                url: "@Url.Action("SaveBill", "Bill")",
+                type: "POST",
+                data: { 'BillItems': items,'Price':price,'GST':gst,'TotalPrice':totalPrice },
+                dataType: "json",
+                success: function (data) {
+                    if (data == null || data == "") {
+            //alert("no skills found");
+                    }
+                    else {
+                        //var jsonPretty = JSON.stringify(data.ItemType, null, '\t');
+                        //alert(jsonPretty);
+                        alert('Saved Successfully');
+                        }
+                },
+                error: function () {
+                alert("failure");
+                }
+            });
+        e.preventDefault();
+    });
+
+    
+</script>
+
+
